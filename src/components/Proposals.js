@@ -51,7 +51,7 @@ const Proposals = ({ provider, dao, proposals, quorum, setIsLoading }) => {
 					<td>{proposal.name}</td>
 					<td>{proposal.recipient}</td>
 					<td>{ethers.utils.formatUnits(proposal.amount, "ether")} ETH</td>
-					<td>{proposal.finalized ? 'Approved' : 'In progress'}</td>
+					<td>{proposal.finalized ? 'Approved' : 'In Progress'}</td>
 					<td>{proposal.votes.toString()}</td>
 					<td>
 						{!proposal.finalized && (
@@ -64,10 +64,12 @@ const Proposals = ({ provider, dao, proposals, quorum, setIsLoading }) => {
 					</td><td>
 						{!proposal.finalized && proposal.votes > quorum &&(
 							<Button 
-							variant="primary" 
-							onClick={() => finalizeHandler(proposal.id)}
-							style={{width:'100%'}}>
-							Finalized</Button>
+								variant="primary" 
+								style={{width:'100%'}}
+								onClick={() => finalizeHandler(proposal.id)}
+							>
+								Finalize
+							</Button>
 						)}
 					</td>
 				</tr>

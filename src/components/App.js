@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 
 // Components
 import Navigation from './Navigation';
+import Create from './Create';
 import Proposals from './Proposals';
 import Loading from './Loading';
 
@@ -17,7 +18,9 @@ function App() {
   const [provider, setProvider] = useState(null)
   const [dao, setDao] = useState(null)
   const [treasuryBalance, setTreasuryBalance] = useState(0)
+
   const [account, setAccount] = useState(null)
+
   const [proposals, setProposals] = useState(null)
   const [quorum, setQuorum] = useState(null)
 
@@ -27,13 +30,12 @@ function App() {
     // Initiate provider
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     setProvider(provider)
-    // console.log(`Network ID: ${networkId}`);
 
     // Initiate contracts
     const dao = new ethers.Contract(config[31337].dao.address, DAO_ABI, provider)
     setDao(dao)
 
-    //Fetch treasury balance
+    // Fetch treasury balance
     let treasuryBalance = await provider.getBalance(dao.address)
     treasuryBalance = ethers.utils.formatUnits(treasuryBalance, 18)
     setTreasuryBalance(treasuryBalance)
@@ -51,9 +53,10 @@ function App() {
       const proposal = await dao.proposals(i + 1)
       items.push(proposal)
     }
+
     setProposals(items)
 
-    //Fetch quorum
+    // Fetch quorum
     setQuorum(await dao.quorum())
 
     setIsLoading(false)
@@ -75,11 +78,20 @@ function App() {
         <Loading />
       ) : (
         <>
+          <Create
+            provider={provider}
+            dao={dao}
+            setIsLoading={setIsLoading}
+          />
+
           <hr/>
-          <p className='text-center'><strong>Treasury Balance:</strong>{treasuryBalance} ETH </p>
+
+          <p className='text-center'><strong>Treasury Balance:</strong> {treasuryBalance} ETH</p>
+
           <hr/>
-          <Proposals 
-            provider={provider} 
+
+          <Proposals
+            provider={provider}
             dao={dao}
             proposals={proposals}
             quorum={quorum}
