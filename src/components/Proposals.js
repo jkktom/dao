@@ -19,7 +19,7 @@ const Proposals = ({ provider, dao, proposals, quorum, setIsLoading }) => {
 	const finalizeHandler = async(id) => {
 		try{
 			const signer = await provider.getSigner()
-			const trasaction = await dao.connect(signer).vote(id)
+			const trasaction = await dao.connect(signer).finalizeProposal(id)
 			await trasaction.wait()
 		} catch {
 			window.alert('User rejected look for error')
