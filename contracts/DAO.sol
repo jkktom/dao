@@ -21,28 +21,22 @@ contract DAO {
 	
 	uint256 public proposalCount;
 	mapping(uint256 => Proposal) public proposals;
-	
+	mapping(address => mapping(uint256 => bool)) votes;
+
 	event Propose(
 		uint id,
 		uint256 amount,
 		address recipient,
 		address creator
 	);
-	event Vote(
-		uint256  id,
-		address investor
-	);
-	event Finalize(
-		uint256  id
-	);
+	event Vote(uint256 id,address investor);
+	event Finalize(uint256 id);
 
 	constructor(Token _token, uint256 _quorum) {
 		owner = msg.sender;
 		token = _token;
 		quorum = _quorum;
 	}
-
-
 
 	receive() external payable{}
 		// Allow contract to recieve ether
@@ -80,7 +74,6 @@ contract DAO {
 			msg.sender);
 	}
 
-	mapping(address => mapping(uint256 => bool)) votes;
 
 	//Vote on proposal
 	function vote(uint256 _id) external onlyInvestor {

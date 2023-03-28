@@ -7,6 +7,8 @@ const tokens = (n) => {
 
 const ether = tokens
 
+
+
 describe('Token', () => {
   let token, dao
   let deployer,
@@ -43,21 +45,11 @@ describe('Token', () => {
       .deploy(token.address, '500000000000000000000001')
 
     //Deploy tokens to the investors
-    await (
-      await token.connect(deployer).transfer(investor1.address, tokens(200000))
-      ).wait()
-    await (
-      await token.connect(deployer).transfer(investor2.address, tokens(200000))
-      ).wait()
-    await (
-      await token.connect(deployer).transfer(investor3.address, tokens(200000))
-      ).wait()
-    await (
-      await token.connect(deployer).transfer(investor4.address, tokens(200000))
-      ).wait()
-    await (
-      await token.connect(deployer).transfer(investor5.address, tokens(200000))
-      ).wait()
+    await (await token.connect(deployer).transfer(investor1.address, tokens(200000))).wait()
+    await (await token.connect(deployer).transfer(investor2.address, tokens(200000))).wait()
+    await (await token.connect(deployer).transfer(investor3.address, tokens(200000))).wait()
+    await (await token.connect(deployer).transfer(investor4.address, tokens(200000))).wait()
+    await (await token.connect(deployer).transfer(investor5.address, tokens(200000))).wait()
 
     //Funder sends 100 ETH to the DAO
     await funder.sendTransaction({to: dao.address, value: ether(100)})
